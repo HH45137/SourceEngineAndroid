@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String openDir() {
+    private String openGame() {
         final String[] retStr = {null};
 
         //如果没有权限会自动申请权限
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                 )
-                .setTitlebarMainTitle(new FontBean("Select game dir."))
+                .setTitlebarMainTitle(new FontBean("Select liblauncher.so"))
                 .setTitlebarBG(Color.rgb(255,127,39))
                 .setRadio()
                 .show();//开始构建
@@ -73,9 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void start(View view) {
         checkPermission();
-        String gameRootDir = openDir();
-        Log.d("Debug: ", "Game root dir = " + gameRootDir);
+        String liblauncherPath = openGame();
 
-        Launcher.run("");
+        Launcher.run(liblauncherPath);
     }
 }
