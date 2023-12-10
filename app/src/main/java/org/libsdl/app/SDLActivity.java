@@ -210,7 +210,31 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         } catch (Exception e) {
             Log.d("Debug", "modify thread properties failed " + e.toString());
         }
-        
+
+        // Load shared libraries
+        String errorMsgBrokenLib = "";
+        try {
+            loadLibraries();
+            mBrokenLibraries = false; /* success */
+        } catch(UnsatisfiedLinkError e) {
+            System.err.println(e.getMessage());
+            mBrokenLibraries = true;
+            errorMsgBrokenLib = e.getMessage();
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+            mBrokenLibraries = true;
+            errorMsgBrokenLib = e.getMessage();
+        }
+
+        SDL.setupJNI();
+        SDL.initialize();
+        SDL.setContext(this);
+
+        mClipboardHandler = new SDLClipboardHandler();
+
+        mSurface = new SDLSurface(getApplication());
+
+        System.out.println();
     }
 
     // Setup
