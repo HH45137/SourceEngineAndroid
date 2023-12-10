@@ -33,19 +33,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            Log.d("Debug: ", "Permission obtained successfully.");
-        }else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 201);
-        }
-    }
-
     private String openGame() {
         final String[] retStr = {null};
 
-        //如果没有权限会自动申请权限
-        PathSelector.build(this, MConstants.BUILD_DIALOG)//Dialog构建方式
+        PathSelector.build(this, MConstants.BUILD_DIALOG)
                 .setMorePopupItemListeners(
                         new CommonItemListener("OK") {
                             @Override
@@ -66,13 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 .setTitlebarMainTitle(new FontBean("Select liblauncher.so"))
                 .setTitlebarBG(Color.rgb(255,127,39))
                 .setRadio()
-                .show();//开始构建
+                .show();
 
         return retStr[0];
     }
 
     public void start(View view) {
-        checkPermission();
         String liblauncherPath = openGame();
 
         Launcher.run(liblauncherPath);
