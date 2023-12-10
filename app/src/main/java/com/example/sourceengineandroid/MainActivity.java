@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public void start(View view) {
         String liblauncherPath = openGame();
 
-        Launcher.run(liblauncherPath);
+        Intent intent = new Intent(this, LauncherActivity.class);
+        startActivity(intent);
     }
 }
