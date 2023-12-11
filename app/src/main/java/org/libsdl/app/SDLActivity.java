@@ -267,7 +267,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         SDL.setContext(this);
 
         //设置本机环境变量
-        ValveActivity2.initNatives();
+        ValveActivity2.initNatives(this, getIntent());
 
         mClipboardHandler = new SDLClipboardHandler();
 
