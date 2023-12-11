@@ -53,6 +53,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sourceengineandroid.LauncherActivity;
+import com.valvesoftware.ValveActivity2;
+
 import java.util.Hashtable;
 import java.util.Locale;
 
@@ -201,41 +204,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         mCurrentNativeState = NativeState.INIT;
     }
 
-    private void init() {
-        Log.d("Debug", "init: is run.");
-
-        try {
-            Thread.currentThread().setName("SDLActivity");
-        } catch (Exception e) {
-            Log.d("Debug", "modify thread properties failed " + e.toString());
-        }
-
-        // Load shared libraries
-        String errorMsgBrokenLib = "";
-        try {
-            loadLibraries();
-            mBrokenLibraries = false; /* success */
-        } catch(UnsatisfiedLinkError e) {
-            System.err.println(e.getMessage());
-            mBrokenLibraries = true;
-            errorMsgBrokenLib = e.getMessage();
-        } catch(Exception e) {
-            System.err.println(e.getMessage());
-            mBrokenLibraries = true;
-            errorMsgBrokenLib = e.getMessage();
-        }
-
-        SDL.setupJNI();
-        SDL.initialize();
-        SDL.setContext(this);
-
-        mClipboardHandler = new SDLClipboardHandler();
-
-        mSurface = new SDLSurface(getApplication());
-
-        System.out.println();
-    }
-
     // Setup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,8 +211,6 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         Log.v(TAG, "Model: " + Build.MODEL);
         Log.v(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
-
-        init();
 
         try {
             Thread.currentThread().setName("SDLActivity");
@@ -299,6 +265,9 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         // So we can call stuff from static callbacks
         mSingleton = this;
         SDL.setContext(this);
+
+        //设置本机环境变量
+        ValveActivity2.initNatives();
 
         mClipboardHandler = new SDLClipboardHandler();
 
