@@ -19,6 +19,6 @@ public class ValveActivity2 {
         setenv( "APP_LIB_PATH", context.getApplicationInfo().nativeLibraryDir, 1);
         setenv( "VALVE_GAME_PATH", "/storage/emulated/0/srceng/", 1 );
 
-        setArgs("-game hl2 -console");
+        setArgs("-game hl2 -console -nosteam");
     }
 }

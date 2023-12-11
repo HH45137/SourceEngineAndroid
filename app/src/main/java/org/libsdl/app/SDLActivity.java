@@ -1636,7 +1636,6 @@ class SDLMain implements Runnable {
         String library = SDLActivity.mSingleton.getMainSharedObject();
         String function = SDLActivity.mSingleton.getMainFunction();
         String[] arguments = SDLActivity.mSingleton.getArguments();
-        library = "/storage/emulated/0/半条命2/HL2_Android/liblauncher.so";
 
         try {
             android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DISPLAY);
