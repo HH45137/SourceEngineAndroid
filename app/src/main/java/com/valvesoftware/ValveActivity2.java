@@ -19,6 +19,6 @@ public class ValveActivity2 {
         setenv( "APP_LIB_PATH", context.getApplicationInfo().nativeLibraryDir, 1);
         setenv( "VALVE_GAME_PATH", "/storage/emulated/0/srceng/", 1 );
 
-        setArgs("-game hl2 -console -nosteam");
+        setArgs("-game hl2 -nobackgroundlevel"); // 我们不需要多余的命令行参数，因为引擎启动器将在新版本使用-nobackgroundlevel来禁用加载背景而不是-console
     }
 }
