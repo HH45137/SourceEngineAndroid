@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.os.Environment;
 
+import com.nillerusr.ExtractAssets;
+
 import java.util.Locale;
 
 public class ValveActivity2 {
@@ -12,6 +14,8 @@ public class ValveActivity2 {
     public static native int setenv(String name, String value, int overwrite);
 
     public static void initNatives(Context context, Intent intent) {
+        ExtractAssets.extractAssets(context);
+
         setenv( "APP_MOD_LIB", "/storage/emulated/0/srceng/", 1 );
         setenv( "EXTRAS_VPK_PATH", "/storage/emulated/0/srceng/", 1 );
         setenv( "LANG", Locale.getDefault().toString(), 1 );
