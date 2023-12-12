@@ -29,6 +29,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String srengDir = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPath(View view) {
-        String liblauncherPath = openGame();
+        MainActivity.srengDir = openGame();
+
+        if (MainActivity.srengDir == null) {
+            MainActivity.srengDir = "/storage/emulated/0/srceng/";
+        }
     }
 
     public void runGame(View view) {
