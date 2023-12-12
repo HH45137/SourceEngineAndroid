@@ -53,7 +53,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sourceengineandroid.LauncherActivity;
 import com.valvesoftware.ValveActivity2;
 
 import java.util.Hashtable;

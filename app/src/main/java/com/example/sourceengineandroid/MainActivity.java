@@ -23,6 +23,8 @@ import com.molihuan.pathselector.listener.CommonItemListener;
 import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.Mtools;
 
+import org.libsdl.app.SDLActivity;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,8 +67,14 @@ public class MainActivity extends AppCompatActivity {
     public void start(View view) {
         String liblauncherPath = openGame();
 
-        Intent intent = new Intent(MainActivity.this, LauncherActivity.class);
+        run();
+    }
+
+    private int run() {
+        Intent intent = new Intent(this, SDLActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+
+        return 0;
     }
 }
