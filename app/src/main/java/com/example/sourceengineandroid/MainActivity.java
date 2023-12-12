@@ -64,17 +64,14 @@ public class MainActivity extends AppCompatActivity {
         return retStr[0];
     }
 
-    public void start(View view) {
+    public void setPath(View view) {
         String liblauncherPath = openGame();
-
-        run();
     }
 
-    private int run() {
+    public void runGame(View view) {
         Intent intent = new Intent(this, SDLActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
-        return 0;
     }
 }
