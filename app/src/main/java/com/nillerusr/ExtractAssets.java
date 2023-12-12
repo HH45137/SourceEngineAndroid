@@ -93,15 +93,14 @@ public class ExtractAssets
         chmod(context.getApplicationInfo().dataDir, 511);
         chmod(context.getFilesDir().getPath(), 511);
         extractVPK(context);
-        extractAsset(context, "droidsansfallback.ttf", Boolean.valueOf(false));
-        extractAsset(context, "LiberationMono-Regular.ttf", Boolean.valueOf(false));
-        extractAsset(context, "dejavusans_boldoblique.ttf", Boolean.valueOf(false));
-        extractAsset(context, "dejavusans_bold.ttf.ttf", Boolean.valueOf(false));
-        extractAsset(context, "dejavusans_oblique.ttf", Boolean.valueOf(false));
-        extractAsset(context, "dejavusans.ttf", Boolean.valueOf(false));
-        extractAsset(context, "Itim-Regular.otf", Boolean.valueOf(false));
-
-        extractAsset(context, "jf_openhuninn_2_0.ttf", Boolean.valueOf(false));
+//        extractAsset(context, "DroidSansFallback.ttf", Boolean.valueOf(false));
+//        extractAsset(context, "LiberationMono-Regular.ttf", Boolean.valueOf(false));
+//        extractAsset(context, "dejavusans-boldoblique.ttf", Boolean.valueOf(false));
+//        extractAsset(context, "dejavusans-bold.ttf", Boolean.valueOf(false));
+//        extractAsset(context, "dejavusans-oblique.ttf", Boolean.valueOf(false));
+//        extractAsset(context, "dejavusans.ttf", Boolean.valueOf(false));
+//        extractAsset(context, "Itim-Regular.otf", Boolean.valueOf(false));
+        extractAsset(context, "jf-openhuninn-2.0.ttf", Boolean.valueOf(false));
     }
 
     public static void extractAsset(Context context, String str, Boolean bool) {
