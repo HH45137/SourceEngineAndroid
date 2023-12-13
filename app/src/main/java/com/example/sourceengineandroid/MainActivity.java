@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    private void openGame() {
+    private void openGameDir() {
 
         PathSelector.build(this, MConstants.BUILD_DIALOG)
                 .setMorePopupItemListeners(
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPath(View view) {
-        openGame();
+        openGameDir();
     }
 
     public void runGame(View view) {
@@ -116,6 +116,9 @@ public class MainActivity extends AppCompatActivity {
                 if (tGameinfotxt.exists()) {
                     sl.add(tDir2.getName());
                 }
+            }
+            if (sl.isEmpty()) {
+                return null;
             }
         }
 
