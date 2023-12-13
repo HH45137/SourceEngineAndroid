@@ -21,32 +21,17 @@ public class ExtractAssets
 
     private static int chmod(String path, int mode)
     {
-        int ret = -1;
-
-        try
-        {
-            ret = Runtime.getRuntime().exec("chmod " + Integer.toOctalString(mode) + " " + path).waitFor();
-            Log.d(TAG, "chmod " + Integer.toOctalString(mode) + " " + path + ": " + ret );
+        try {
+            Log.d(TAG, "chmod " + Integer.toOctalString(mode) + " " + path + ": " + Runtime.getRuntime().exec("chmod " + Integer.toOctalString(mode) + " " + path).waitFor());
+        } catch (Exception e) {
+            Log.d(TAG, "chmod: Runtime not worked: " + e.toString());
         }
-        catch(Exception e)
-        {
-            ret = -1;
-            Log.d(TAG, "chmod: Runtime not worked: " + e.toString() );
+        try {
+            return ((Integer) Class.forName("android.os.FileUtils").getMethod("setPermissions", new Class[]{String.class, Integer.TYPE, Integer.TYPE, Integer.TYPE}).invoke(null, new Object[]{path, Integer.valueOf(mode), Integer.valueOf(-1), Integer.valueOf(-1)})).intValue();
+        } catch (Exception e2) {
+            Log.d(TAG, "chmod: FileUtils not worked: " + e2.toString());
+            return -1;
         }
-
-        try
-        {
-            Class fileUtils = Class.forName("android.os.FileUtils");
-            Method setPermissions = fileUtils.getMethod("setPermissions", String.class, int.class, int.class, int.class);
-            ret = (Integer) setPermissions.invoke(null, path, mode, -1, -1);
-        }
-        catch(Exception e)
-        {
-            ret = -1;
-            Log.d(TAG, "chmod: FileUtils not worked: " + e.toString() );
-        }
-
-        return ret;
     }
 
     public static void extractVPK(Context context, Boolean force)
