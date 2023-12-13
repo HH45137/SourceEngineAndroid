@@ -2,9 +2,12 @@ package com.example.sourceengineandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import com.molihuan.pathselector.utils.Mtools;
 import org.libsdl.app.SDLActivity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openGame() {
-        final String[] retStr = {null};
 
         PathSelector.build(this, MConstants.BUILD_DIALOG)
                 .setMorePopupItemListeners(
@@ -64,11 +67,52 @@ public class MainActivity extends AppCompatActivity {
 
     public void runGame(View view) {
         if (MainActivity.srcengDir == null) {
-            MainActivity.srcengDir = "/storage/emulated/0/srceng/";
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("请选择游戏根目录里的一个文件比如 hl2.exe！")
+                    .setPositiveButton("OK", (dialog, which) -> {
+
+                    })
+                    .show();
+            return;
+        }
+
+        if (searchGame() == null) {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("请选择正确的游戏目录")
+                    .setPositiveButton("OK", (dialog, which) -> {
+
+                    })
+                    .show();
+            return;
         }
 
         Intent intent = new Intent(this, SDLActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private String[] searchGame(){
+        List<String> sl = new ArrayList<>();
+
+        if (srcengDir != null){
+            File tDir = new File(srcengDir);
+            if (!tDir.isDirectory()) {return null;}
+
+            String[] tDirs = tDir.list();
+            for (String tStr : tDirs) {
+                File tDir2 = new File(tDir + "/" + tStr);
+                if (!tDir2.isDirectory()) {continue;}
+
+                // Find gameinfo.txt
+                File tGameinfotxt = new File(tDir2 + "/" + "gameinfo.txt");
+                if (tGameinfotxt.exists()) {
+                    sl.add(tDir2.getPath());
+                }
+            }
+        }
+
+        return (String[]) sl.toArray();
     }
 }
