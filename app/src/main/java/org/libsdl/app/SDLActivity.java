@@ -1,5 +1,6 @@
 package org.libsdl.app;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -55,7 +56,9 @@ import android.widget.Toast;
 
 import com.valvesoftware.ValveActivity2;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -64,6 +67,8 @@ import java.util.Locale;
 */
 public class SDLActivity extends Activity implements View.OnSystemUiVisibilityChangeListener {
     private static final String TAG = "SDL";
+
+    final static int REQUEST_PERMISSIONS = 42;
 
     public static boolean mIsResumedCalled, mHasFocus;
     public static final boolean mHasMultiWindow = (Build.VERSION.SDK_INT >= 24);
@@ -203,6 +208,21 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         mCurrentNativeState = NativeState.INIT;
     }
 
+    public void applyPermissions( final String permissions[], final int code ) {
+        List<String> requestPermissions = new ArrayList<String>();
+        for( int i = 0; i < permissions.length; i++ ) {
+            if( checkSelfPermission(permissions[i]) != PackageManager.PERMISSION_GRANTED )
+                requestPermissions.add(permissions[i]);
+        }
+
+        if( !requestPermissions.isEmpty() ) {
+            String[] requestPermissionsArray = new String[requestPermissions.size()];
+            for( int i = 0; i < requestPermissions.size(); i++ )
+                requestPermissionsArray[i] = requestPermissions.get(i);
+            requestPermissions(requestPermissionsArray, code);
+        }
+    }
+
     // Setup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,6 +230,16 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         Log.v(TAG, "Model: " + Build.MODEL);
         Log.v(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
+
+        if( Build.VERSION.SDK_INT >= 23 ) {
+            applyPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO}, REQUEST_PERMISSIONS);
+        }
+
+        if( checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED )
+        {
+            return;
+        }
 
         try {
             Thread.currentThread().setName("SDLActivity");
