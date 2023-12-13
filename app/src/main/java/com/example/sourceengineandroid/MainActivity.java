@@ -29,6 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static String srcengDir = null;
+    public static List<String> gameModList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                 )
                 .setTitlebarMainTitle(new FontBean("Select any file in srceng folder"))
-                .setTitlebarBG(Color.rgb(255,127,39))
+                .setTitlebarBG(Color.rgb(255, 127, 39))
                 .setRadio()
                 .setSelectFileTypes()
                 .show();
@@ -77,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if (searchGame() == null) {
+        gameModList = searchGameMods();
+        if (gameModList == null) {
             new AlertDialog.Builder(this)
                     .setTitle("提示")
                     .setMessage("请选择正确的游戏目录")
@@ -93,26 +95,30 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private String[] searchGame(){
+    private List<String> searchGameMods() {
         List<String> sl = new ArrayList<>();
 
-        if (srcengDir != null){
+        if (srcengDir != null) {
             File tDir = new File(srcengDir);
-            if (!tDir.isDirectory()) {return null;}
+            if (!tDir.isDirectory()) {
+                return null;
+            }
 
             String[] tDirs = tDir.list();
             for (String tStr : tDirs) {
                 File tDir2 = new File(tDir + "/" + tStr);
-                if (!tDir2.isDirectory()) {continue;}
+                if (!tDir2.isDirectory()) {
+                    continue;
+                }
 
                 // Find gameinfo.txt
                 File tGameinfotxt = new File(tDir2 + "/" + "gameinfo.txt");
                 if (tGameinfotxt.exists()) {
-                    sl.add(tDir2.getPath());
+                    sl.add(tDir2.getName());
                 }
             }
         }
 
-        return (String[]) sl.toArray();
+        return sl;
     }
 }
