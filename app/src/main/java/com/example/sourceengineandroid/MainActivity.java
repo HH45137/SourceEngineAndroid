@@ -3,13 +3,13 @@ package com.example.sourceengineandroid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.molihuan.pathselector.PathSelector;
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String srcengDir = null;
     public static List<String> gameModList = null;
+    public static int chioseModIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,22 +68,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void runGame(View view) {
-        if (MainActivity.srcengDir == null) {
-            new AlertDialog.Builder(this)
-                    .setTitle("提示")
-                    .setMessage("请选择游戏根目录里的一个文件比如 hl2.exe！")
-                    .setPositiveButton("OK", (dialog, which) -> {
-
-                    })
-                    .show();
+        if (!isSelectGameRootDir()) {
             return;
         }
 
-        gameModList = searchGameMods();
-        if (gameModList == null) {
+        Spinner tSpinner = findViewById(R.id.spinner_game_mods);
+        chioseModIndex = tSpinner.getSelectedItemPosition();
+        if (chioseModIndex < 0) {
             new AlertDialog.Builder(this)
                     .setTitle("提示")
-                    .setMessage("请选择正确的游戏目录")
+                    .setMessage("请选择要启动的mod！")
                     .setPositiveButton("OK", (dialog, which) -> {
 
                     })
@@ -93,6 +88,20 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SDLActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void refreshGameMods(View view) {
+        if (!isSelectGameRootDir()) {
+            return;
+        }
+
+        // choice game mod
+        Spinner spinnerGameMods_Item = findViewById(R.id.spinner_game_mods);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        spinnerGameMods_Item.setAdapter(adapter);
+        for (String item : gameModList) {
+            adapter.add(item);
+        }
     }
 
     private List<String> searchGameMods() {
@@ -124,4 +133,33 @@ public class MainActivity extends AppCompatActivity {
 
         return sl;
     }
+
+    private boolean isSelectGameRootDir() {
+
+        if (MainActivity.srcengDir == null) {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("请选择游戏根目录里的一个文件比如 hl2.exe！")
+                    .setPositiveButton("OK", (dialog, which) -> {
+
+                    })
+                    .show();
+            return false;
+        }
+
+        gameModList = searchGameMods();
+        if (gameModList == null) {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("请选择正确的游戏目录")
+                    .setPositiveButton("OK", (dialog, which) -> {
+
+                    })
+                    .show();
+            return false;
+        }
+
+        return true;
+    }
+
 }

@@ -23,6 +23,7 @@ public class ValveActivity2 {
         setenv( "APP_LIB_PATH", context.getApplicationInfo().nativeLibraryDir, 1);
         setenv( "VALVE_GAME_PATH", MainActivity.srcengDir, 1 );
 
-        setArgs("-nobackgroundlevel"); // 我们不需要多余的命令行参数，因为引擎启动器将在新版本使用-nobackgroundlevel来禁用加载背景而不是-console
+        String gameMod = " -game " + MainActivity.gameModList.get(MainActivity.chioseModIndex);
+        setArgs(gameMod + " -nobackgroundlevel"); // 我们不需要多余的命令行参数，因为引擎启动器将在新版本使用-nobackgroundlevel来禁用加载背景而不是-console
     }
 }
