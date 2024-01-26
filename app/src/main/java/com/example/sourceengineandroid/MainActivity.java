@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.molihuan.pathselector.utils.MConstants;
 import com.molihuan.pathselector.utils.Mtools;
 
 import org.libsdl.app.SDLActivity;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_launcher);
     }
 
     private void openGameDir() {
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPath(View view) {
+        EditText edit_gamepath = findViewById(R.id.edit_gamepath);
+        edit_gamepath.setText(srcengDir);
+
         openGameDir();
     }
 

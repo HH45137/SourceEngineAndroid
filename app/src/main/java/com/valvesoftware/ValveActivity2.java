@@ -2,8 +2,10 @@ package com.valvesoftware;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.EditText;
 
 import com.example.sourceengineandroid.MainActivity;
+import com.example.sourceengineandroid.R;
 import com.nillerusr.ExtractAssets;
 
 import java.util.Locale;
@@ -24,6 +26,7 @@ public class ValveActivity2 {
         setenv( "VALVE_GAME_PATH", MainActivity.srcengDir, 1 );
 
         String gameMod = " -game " + MainActivity.gameModList.get(MainActivity.chioseModIndex);
+
         setArgs(gameMod + " -nobackgroundlevel"); // 我们不需要多余的命令行参数，因为引擎启动器将在新版本使用-nobackgroundlevel来禁用加载背景而不是-console
     }
 }
